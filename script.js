@@ -10,7 +10,8 @@ const photos = [
   ["people-03","https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=86","街头女性肖像","春日侧影","人文","2025"],
   ["cos-01","https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1400&q=86","戏剧感服装肖像","异世界来客","Cosplay","2026"],
   ["cos-02","https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1400&q=86","红色造型时尚肖像","绯色章节","Cosplay","2025"],
-  ["cos-03","https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1400&q=86","电影感角色肖像","幕间","Cosplay","2025"]
+  ["cos-03","https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1400&q=86","电影感角色肖像","幕间","Cosplay","2025"],
+  ["park-01","https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=86","晨光中的城市公园","树影之间","公园","2026"]
 ].map(([id,src,alt,title,category,year])=>({id,src,alt,title,category,year}));
 
 const gallery=document.querySelector("#gallery"),lightbox=document.querySelector("#lightbox"),lightboxImage=document.querySelector("#lightbox-image"),lightboxTitle=document.querySelector("#lightbox-title"),lightboxMeta=document.querySelector("#lightbox-meta");
