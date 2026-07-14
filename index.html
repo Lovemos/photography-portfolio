@@ -26,11 +26,11 @@
         <h1>在光落下<br />之前，按下快门。</h1>
         <div class="hero-bottom"><p>以镜头收集风、城市与人的片刻。<br />一份持续生长的私人影像档案。</p><a href="#works" class="round-link">↓</a></div>
       </div>
-      <p class="hero-index">01 <span>/</span> 14</p>
+      <p class="hero-index">01 <span>/</span> <span id="hero-total">14</span></p>
     </section>
 
     <section id="works" class="works-section">
-      <div class="section-heading"><div><p class="kicker">SELECTED WORKS</p><h2>作品选集</h2></div><p class="archive-count">ARCHIVE<br /><strong>14</strong> FRAMES</p></div>
+      <div class="section-heading"><div><p class="kicker">SELECTED WORKS</p><h2>作品选集</h2></div><p class="archive-count">ARCHIVE<br /><strong id="archive-total">14</strong> FRAMES</p></div>
       <div class="filter-row" role="tablist" aria-label="作品分类">
         <button class="active" data-filter="全部"><span>全部</span><small>ALL WORKS</small></button>
         <button data-filter="风光"><span>风光</span><small>LANDSCAPE</small></button>
@@ -56,6 +56,7 @@
     <div class="lightbox-stage"><img id="lightbox-image" alt="" /><p><span id="lightbox-title"></span><small id="lightbox-meta"></small></p></div>
     <button id="next-photo" class="lightbox-nav next" aria-label="下一张">→</button>
   </div>
+  <script src="photos.generated.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

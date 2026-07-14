@@ -1,4 +1,4 @@
-const photos = [
+const demoPhotos = [
   ["land-01","https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=86","暮色中的山谷","风经过的地方","风光","2026"],
   ["land-02","https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1400&q=86","雪山与星空","寂静以北","风光","2025"],
   ["land-03","https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1800&q=86","湖畔群山","远岸","风光","2025"],
@@ -14,10 +14,14 @@ const photos = [
   ["park-01","https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=86","晨光中的城市公园","树影之间","公园","2026"],
   ["portrait-01","https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=1400&q=86","自然光人像写真","午后微光","人像约拍","2026"]
 ].map(([id,src,alt,title,category,year])=>({id,src,alt,title,category,year}));
+const photos = Array.isArray(window.GENERATED_PHOTOS) && window.GENERATED_PHOTOS.length ? window.GENERATED_PHOTOS : demoPhotos;
 
 const gallery=document.querySelector("#gallery"),lightbox=document.querySelector("#lightbox"),lightboxImage=document.querySelector("#lightbox-image"),lightboxTitle=document.querySelector("#lightbox-title"),lightboxMeta=document.querySelector("#lightbox-meta");
 let visible=photos,activeIndex=0;
 document.querySelector("#hero-image").src=photos[0].src;
+document.querySelector("#hero-image").alt=photos[0].alt;
+document.querySelector("#hero-total").textContent=String(photos.length).padStart(2,"0");
+document.querySelector("#archive-total").textContent=String(photos.length).padStart(2,"0");
 
 function render(category="全部"){
   visible=category==="全部"?photos:photos.filter(photo=>photo.category===category);
