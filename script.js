@@ -15,8 +15,9 @@ const demoPhotos = [
   ["portrait-01","https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=1400&q=86","自然光人像写真","午后微光","人像约拍","2026"]
 ].map(([id,src,alt,title,category,year])=>({id,src,alt,title,category,year}));
 const photos = Array.isArray(window.GENERATED_PHOTOS) && window.GENERATED_PHOTOS.length ? window.GENERATED_PHOTOS : demoPhotos;
+const byFilenameDescending = (a,b) => b.title.localeCompare(a.title,"zh-CN",{numeric:true,sensitivity:"base"});
 
-const gallery=document.querySelector("#gallery"),lightbox=document.querySelector("#lightbox"),lightboxImage=document.querySelector("#lightbox-image"),lightboxTitle=document.querySelector("#lightbox-title"),lightboxMeta=document.querySelector("#lightbox-meta");
+const gallery=document.querySelector("#gallery"),lightbox=document.querySelector("#lightbox"),lightboxImage=document.querySelector("#lightbox-image");
 let visible=photos,activeIndex=0;
 document.querySelector("#hero-image").src=photos[0].src;
 document.querySelector("#hero-image").alt=photos[0].alt;
@@ -24,11 +25,11 @@ document.querySelector("#hero-total").textContent=String(photos.length).padStart
 document.querySelector("#archive-total").textContent=String(photos.length).padStart(2,"0");
 
 function render(category="全部"){
-  visible=category==="全部"?photos:photos.filter(photo=>photo.category===category);
-  gallery.innerHTML=visible.map((photo,index)=>`<button class="photo-card" data-index="${index}" style="animation-delay:${Math.min(index,8)*65}ms" aria-label="查看大图：${photo.title}"><span class="photo-frame"><img src="${photo.src}" alt="${photo.alt}" loading="lazy"></span><span class="photo-meta"><span><b>${photo.title}</b><small>${photo.category} · ${photo.year}</small></span><i>${String(index+1).padStart(2,"0")}</i></span></button>`).join("");
+  visible=(category==="全部"?photos:photos.filter(photo=>photo.category===category)).slice().sort(byFilenameDescending);
+  gallery.innerHTML=visible.map((photo,index)=>`<button class="photo-card" data-index="${index}" style="animation-delay:${Math.min(index,8)*65}ms" aria-label="查看${photo.category}摄影作品"><span class="photo-frame"><img src="${photo.src}" alt="${photo.category}摄影作品" loading="lazy"></span><span class="photo-meta"><small>${photo.category} · ${photo.year}</small><i>${String(index+1).padStart(2,"0")}</i></span></button>`).join("");
   gallery.querySelectorAll(".photo-card").forEach(card=>card.addEventListener("click",()=>openLightbox(Number(card.dataset.index))));
 }
-function openLightbox(index){activeIndex=index;const photo=visible[index];lightboxImage.src=photo.src;lightboxImage.alt=photo.alt;lightboxTitle.textContent=photo.title;lightboxMeta.textContent=`${photo.category} · ${photo.year}`;lightbox.hidden=false;document.body.style.overflow="hidden"}
+function openLightbox(index){activeIndex=index;const photo=visible[index];lightboxImage.src=photo.src;lightboxImage.alt=`${photo.category}摄影作品`;lightbox.hidden=false;document.body.style.overflow="hidden"}
 function closeLightbox(){lightbox.hidden=true;document.body.style.overflow=""}
 function move(direction){openLightbox((activeIndex+direction+visible.length)%visible.length)}
 
