@@ -26,9 +26,19 @@ document.querySelector("#archive-total").textContent=String(photos.length).padSt
 
 function render(category="全部"){
   visible=(category==="全部"?photos:photos.filter(photo=>photo.category===category)).slice().sort(byFilenameDescending);
-  gallery.innerHTML=visible.map((photo,index)=>`<button class="photo-card" data-index="${index}" style="animation-delay:${Math.min(index,8)*65}ms" aria-label="查看${photo.category}摄影作品"><span class="photo-frame"><img src="${photo.src}" alt="${photo.category}摄影作品" loading="lazy"></span><span class="photo-meta"><small>${photo.category} · ${photo.year}</small><i>${String(index+1).padStart(2,"0")}</i></span></button>`).join("");
+  gallery.innerHTML=visible.map((photo,index)=>`<button class="photo-card" data-index="${index}" style="animation-delay:${Math.min(index,8)*65}ms" aria-label="查看${photo.category}摄影作品"><span class="photo-frame"><img src="${photo.src}" alt="${photo.category}摄影作品" width="${photo.width}" height="${photo.height}" loading="lazy"></span><span class="photo-meta"><small>${photo.category} · ${photo.year}</small><i>${String(index+1).padStart(2,"0")}</i></span></button>`).join("");
   gallery.querySelectorAll(".photo-card").forEach(card=>card.addEventListener("click",()=>openLightbox(Number(card.dataset.index))));
+  scheduleMasonry();
 }
+let masonryFrame=0;
+function layoutMasonry(){
+  const gap=innerWidth<=760?28:innerWidth*.045;
+  gallery.querySelectorAll(".photo-card").forEach(card=>{
+    card.style.gridRowEnd="auto";
+    card.style.gridRowEnd=`span ${Math.ceil(card.getBoundingClientRect().height+gap)}`;
+  });
+}
+function scheduleMasonry(){cancelAnimationFrame(masonryFrame);masonryFrame=requestAnimationFrame(layoutMasonry)}
 function openLightbox(index){activeIndex=index;const photo=visible[index];lightboxImage.src=photo.src;lightboxImage.alt=`${photo.category}摄影作品`;lightbox.hidden=false;document.body.style.overflow="hidden"}
 function closeLightbox(){lightbox.hidden=true;document.body.style.overflow=""}
 function move(direction){openLightbox((activeIndex+direction+visible.length)%visible.length)}
@@ -37,4 +47,5 @@ document.querySelectorAll("[data-filter]").forEach(button=>button.addEventListen
 document.querySelector("#close-lightbox").addEventListener("click",closeLightbox);document.querySelector("#prev-photo").addEventListener("click",()=>move(-1));document.querySelector("#next-photo").addEventListener("click",()=>move(1));lightbox.addEventListener("click",event=>{if(event.target===lightbox)closeLightbox()});
 window.addEventListener("keydown",event=>{if(lightbox.hidden)return;if(event.key==="Escape")closeLightbox();if(event.key==="ArrowLeft")move(-1);if(event.key==="ArrowRight")move(1)});
 window.addEventListener("scroll",()=>{const max=document.documentElement.scrollHeight-innerHeight;document.querySelector("#scroll-progress").style.transform=`scaleX(${max?scrollY/max:0})`},{passive:true});
+window.addEventListener("resize",scheduleMasonry,{passive:true});
 render();
